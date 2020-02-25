@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { fetchMoviesByQuery } from "../services/movies-api";
 import { input, button, form } from "../pages/styles.module.css";
 
-// const getQuery = query => queryString.parse(query.location.search).query;
-// const searchParams = new URLSearchParams(location.search).get('query');
 
 export default class MoviesPage extends Component {
     state = {
@@ -25,6 +23,9 @@ export default class MoviesPage extends Component {
               });
         }
     }
+    // componentDidUpdate() {
+    //     console.log(this.props.location);
+    // }
 
     handleChange = e => {
         this.setState({
