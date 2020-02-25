@@ -3,11 +3,28 @@ import { Link } from "react-router-dom";
 import { fetchMoviesByQuery } from "../services/movies-api";
 import { input, button, form } from "../pages/styles.module.css";
 
+// const getQuery = query => queryString.parse(query.location.search).query;
+// const searchParams = new URLSearchParams(location.search).get('query');
+
 export default class MoviesPage extends Component {
     state = {
         query: "",
         movies: [],
     };
+
+    componentDidMount() {
+        const { location } = this.props;
+
+        if(location.search) {
+            const query = new URLSearchParams(this.props.location.search).get('query');
+            fetchMoviesByQuery(query)
+            .then(data => this.setState ({ movies: data.results }));
+            this.props.history.push({
+                pathname: this.props.location.pathname,
+                search: `query=${query}`,
+              });
+        }
+    }
 
     handleChange = e => {
         this.setState({
@@ -17,14 +34,14 @@ export default class MoviesPage extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-
         const { query } = this.state;
 
         fetchMoviesByQuery(query)
-        .then(data => this.setState ({ movies: data.results }))
+        .then(data => this.setState ({ movies: data.results }));
 
-        this.setState({
-            query: '',
+        this.props.history.push({
+            pathname: this.props.location.pathname,
+            search: `query=${query}`,
         });
     };
 

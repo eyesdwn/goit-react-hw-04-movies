@@ -21,14 +21,14 @@ export default class MovieDetailsPage extends Component {
     };
 
     handleGoBack = () => {
-        // this.props.history.push('/movies');
-        this.props.history.goBack();
+        const { location, history } = this.props;
+        location.state ? history.push(location.state.prevPage) : history.goBack();
+
     };
 
     render() {
         const { movie } = this.state;
         const { match } = this.props;
-        // console.log(match);
         return (
             <div className={movieDetail}>
                 {movie && (
